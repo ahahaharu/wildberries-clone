@@ -79,6 +79,9 @@ const HomePage = () => {
                       price={product.price}
                       image={product.thumbnail}
                       description={product.description}
+                      discountPercentage={product.discountPercentage}
+                      rating={product.rating}
+                      brand={product.brand}
                     />
                   </Grid>
                 ))}
