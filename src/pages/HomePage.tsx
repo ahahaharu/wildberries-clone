@@ -1,49 +1,116 @@
 import React from 'react';
-import { useGetProductsQuery } from '../redux/api/productsApi';
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  useGetCategoriesQuery,
+  useGetProductsQuery,
+} from '../redux/api/productsApi';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Pagination,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import { ProductCard } from '../components/ProductCard/ProductCard';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  selectFilter,
+  setCategory,
+  setPage,
+} from '../redux/slices/filterSlice';
+import { SidebarFilters } from '../components/Sidebar/SidebarFilters';
 
 const HomePage = () => {
-  const { data, isLoading, isError } = useGetProductsQuery();
+  const dispatch = useAppDispatch();
 
-  if (isLoading) {
-    return (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const { currentPage, itemsPerPage, category, search, sortBy, order } =
+    useAppSelector(selectFilter);
+  const skip = (currentPage - 1) * itemsPerPage;
 
-  if (isError) {
-    return (
-      <Typography color="error">
-        Произошла ошибка при загрузке товаров
-      </Typography>
-    );
-  }
+  const { data, isLoading, isError } = useGetProductsQuery({
+    limit: itemsPerPage,
+    skip: skip,
+    category: category,
+    search,
+    sortBy,
+    order,
+  });
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    dispatch(setPage(page));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getMaxCountOfPages = () => Math.ceil(data.total / itemsPerPage);
 
   return (
-    <Box sx={{ padding: '20px 0' }}>
-      <Typography variant="h4" component="h1" sx={{ marginBottom: '20px' }}>
-        Хиты продаж
+    <Container maxWidth="xl" sx={{ padding: '20px 0' }}>
+      {' '}
+      <Typography variant="h4" sx={{ marginBottom: '20px' }}>
+        Каталог
       </Typography>
-
       <Grid container spacing={3}>
-        {data?.products.map((product) => (
-          <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-            <ProductCard
-              id={product.id}
-              title={product.title}
-              price={product.price}
-              image={product.thumbnail}
-              description={product.description}
-            />
-          </Grid>
-        ))}
+        <Grid size={{ xs: 12, md: 3 }}>
+          <SidebarFilters />
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 9 }}>
+          {isLoading && (
+            <CircularProgress sx={{ display: 'block', margin: '50px auto' }} />
+          )}
+
+          {isError && (
+            <Typography color="error">Ошибка загрузки данных</Typography>
+          )}
+
+          {!isLoading && !isError && (
+            <>
+              <Grid container spacing={2}>
+                {data?.products.map((product) => (
+                  <Grid key={product.id} size={{ xs: 12, sm: 6, lg: 4 }}>
+                    <ProductCard
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      image={product.thumbnail}
+                      description={product.description}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+
+              {data?.products.length === 0 && (
+                <Typography variant="h6" align="center" sx={{ mt: 4 }}>
+                  Ничего не найдено
+                </Typography>
+              )}
+
+              {data && data.total > 0 && getMaxCountOfPages() != 1 && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '40px',
+                  }}
+                >
+                  <Pagination
+                    count={getMaxCountOfPages()}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                  />
+                </Box>
+              )}
+            </>
+          )}
+        </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 
