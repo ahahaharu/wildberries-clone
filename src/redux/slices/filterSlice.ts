@@ -38,6 +38,12 @@ const filterSlice = createSlice({
       state,
       action: PayloadAction<{ sortBy: string; order: 'asc' | 'desc' }>
     ) => {
+      if (!action.payload) {
+        state.sortBy = undefined;
+        state.order = undefined;
+        return;
+      }
+
       state.sortBy = action.payload.sortBy;
       state.order = action.payload.order;
     },

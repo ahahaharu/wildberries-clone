@@ -30,6 +30,23 @@ export interface GetProductsArgs {
   order?: 'asc' | 'desc';
 }
 
+export interface AuthRequest {
+  username: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  image: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
@@ -67,6 +84,13 @@ export const productsApi = createApi({
     getProductById: builder.query<Product, string>({
       query: (id) => `products/${id}`,
     }),
+    login: builder.mutation<AuthResponse, AuthRequest>({
+      query: (credentials) => ({
+        url: 'auth/login',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
   }),
 });
 
@@ -74,4 +98,5 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetCategoriesQuery,
+  useLoginMutation,
 } = productsApi;

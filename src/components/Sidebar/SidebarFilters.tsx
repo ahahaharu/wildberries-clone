@@ -34,28 +34,32 @@ export const SidebarFilters = () => {
 
   const handleSort = (e: SelectChangeEvent) => {
     const value = e.target.value;
-    if (value == 'price_asc') {
+
+    if (value === '') {
+      dispatch(setSort(undefined));
+    }
+
+    if (value === 'price_asc') {
       dispatch(setSort({ sortBy: 'price', order: 'asc' }));
     }
-    if (value == 'price_desc') {
+    if (value === 'price_desc') {
       dispatch(setSort({ sortBy: 'price', order: 'desc' }));
     }
-    if (value == 'title_asc') {
+    if (value === 'title_asc') {
       dispatch(setSort({ sortBy: 'title', order: 'asc' }));
     }
   };
 
-  const handleCategory = (cat: string) => {
+  const handleCategory = (cat: string | null) => {
     dispatch(setSearch(''));
     dispatch(setCategory(cat));
   };
 
   return (
-    <Box sx={{ padding: 2, bgColor: 'background.paper', height: '100%' }}>
+    <Box sx={{ padding: 2, bgcolor: 'background.paper', height: '100%' }}>
       <Typography variant="h6" gutterBottom>
         Поиск
       </Typography>
-
       <TextField
         fullWidth
         variant="outlined"
@@ -73,16 +77,18 @@ export const SidebarFilters = () => {
       <FormControl fullWidth size="small" sx={{ marginBottom: 2 }}>
         <InputLabel>Порядок</InputLabel>
         <Select
-          value={sortBy ? `${sortBy}_${order}` : ''}
+          value={sortBy && order ? `${sortBy}_${order}` : ''}
           label="Порядок"
           onChange={handleSort}
         >
+          <MenuItem value="">
+            <em style={{ color: '#9e9e9e' }}>По умолчанию</em>
+          </MenuItem>
           <MenuItem value="price_asc">Сначала дешёвые</MenuItem>
           <MenuItem value="price_desc">Сначала дорогие</MenuItem>
           <MenuItem value="title_asc">По названию (A-Z)</MenuItem>
         </Select>
       </FormControl>
-
       <Divider sx={{ marginBottom: 2 }} />
 
       <Typography variant="h6" gutterBottom>
