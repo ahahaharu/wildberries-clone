@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -7,11 +14,22 @@ export interface Product {
   price: number;
   discountPercentage: number;
   rating: number;
-  stock: number;
   brand: string;
   category: string;
   thumbnail: string;
   images: string[];
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  reviews: Review[];
 }
 
 export interface ProductsResponse {

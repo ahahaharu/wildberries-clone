@@ -12,6 +12,9 @@ module.exports = {
 
   mode: 'development',
 
+  output: {
+    publicPath: '/',
+  },
   devServer: {
     static: './dist',
     port: 3000,
