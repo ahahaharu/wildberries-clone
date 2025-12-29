@@ -25,9 +25,16 @@ export const Header = () => {
               color: 'inherit',
               textDecoration: 'none',
               fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            WILDBERRIES CLONE
+            <Box component="span" sx={{ display: { xs: 'none', sm: 'block' } }}>
+              WILDBERRIES CLONE
+            </Box>
+            <Box component="span" sx={{ display: { xs: 'block', sm: 'none' } }}>
+              WB CLONE
+            </Box>
           </Link>
         </Typography>
 
@@ -37,7 +44,14 @@ export const Header = () => {
 
         {isAuth ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="body1">Привет, {username}</Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+              }}
+            >
+              Привет, {username}
+            </Typography>
             <Button
               color="inherit"
               onClick={handleLogout}
