@@ -14,21 +14,18 @@ import { setCredentials } from '../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState(''); // Для теста: emilys
-  const [password, setPassword] = useState(''); // Для теста: emilyspass
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate(); // Хук для перенаправления
+  const navigate = useNavigate();
 
-  // Используем мутацию
   const [login, { isLoading, isError }] = useLoginMutation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const userData = await login({ username, password }).unwrap();
-
-      console.log('ОТВЕТ СЕРВЕРА:', userData);
 
       dispatch(
         setCredentials({
@@ -66,13 +63,10 @@ const LoginPage = () => {
           Вход в Wildberries
         </Typography>
 
-        <Alert
-          severity="info"
-          sx={{ width: '100%', marginBottom: 2, fontSize: '0.8rem' }}
-        >
+        <div>
           Test user: <b>emilys</b> <br />
           Pass: <b>emilyspass</b>
-        </Alert>
+        </div>
 
         {isError && (
           <Alert severity="error" sx={{ width: '100%', marginBottom: 2 }}>
@@ -105,7 +99,7 @@ const LoginPage = () => {
             variant="contained"
             fullWidth
             size="large"
-            disabled={isLoading} // Блокируем кнопку пока грузится
+            disabled={isLoading}
             sx={{ marginTop: 3 }}
           >
             {isLoading ? 'Вход...' : 'Войти'}
