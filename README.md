@@ -2,6 +2,8 @@
 
 A frontend SPA for an online marketplace. It features a product catalog with pagination, filtering, search, and user authentication. Built with React, TypeScript, and Redux Toolkit.
 
+[Visit the website](https://ahahaharu.github.io/wildberries-clone/#/)
+
 ## Tech Stack
 
 * **Core:** React 18, TypeScript
