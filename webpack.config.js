@@ -8,13 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
+    publicPath: 'auto',
   },
 
-  mode: 'development',
-
-  output: {
-    publicPath: '/',
-  },
   devServer: {
     static: './dist',
     port: 3000,
