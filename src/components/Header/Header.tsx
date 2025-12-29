@@ -48,7 +48,6 @@ export const Header = () => {
             </Button>
           </Box>
         ) : (
-          // Если не вошли: Кнопка Войти
           <Button color="inherit" component={Link} to="/login">
             Войти
           </Button>
