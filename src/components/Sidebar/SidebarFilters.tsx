@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   selectFilter,
@@ -27,9 +27,28 @@ export const SidebarFilters = () => {
   const { category, search, sortBy, order } = useAppSelector(selectFilter);
   const { data: categories } = useGetCategoriesQuery();
 
+  const [localSearch, setLocalSearch] = useState(search);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localSearch !== search) {
+        dispatch(setSearch(localSearch));
+
+        if (localSearch.trim() !== '' && category) {
+          dispatch(setCategory(null));
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [localSearch, search, category, dispatch]);
+
+  useEffect(() => {
+    setLocalSearch(search);
+  }, [search]);
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setCategory(null));
-    dispatch(setSearch(e.target.value));
+    setLocalSearch(e.target.value);
   };
 
   const handleSort = (e: SelectChangeEvent) => {
@@ -64,7 +83,7 @@ export const SidebarFilters = () => {
         fullWidth
         variant="outlined"
         placeholder="Поиск..."
-        value={search}
+        value={localSearch}
         onChange={handleSearch}
         size="small"
         sx={{ marginBottom: 2 }}
