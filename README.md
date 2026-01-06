@@ -6,11 +6,11 @@ A frontend SPA for an online marketplace. It features a product catalog with pag
 
 ## Tech Stack
 
-* **Core:** React 18, TypeScript
+* **Core:** React 19, TypeScript
 * **State Management:** Redux Toolkit
 * **Data Fetching:** RTK Query 
 * **UI Framework:** Material UI 
-* **Routing:** React Router DOM v6
+* **Routing:** React Router DOM v7
 * **Build Tool:** Webpack 5
 * **API:** Integration with DummyJSON
 
