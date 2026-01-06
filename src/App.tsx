@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
@@ -8,7 +8,7 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 
 export const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="login" element={<LoginPage />} />
 
@@ -19,6 +19,6 @@ export const App = () => {
           </Route>
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
