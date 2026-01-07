@@ -7,8 +7,11 @@ import LoginPage from './pages/LoginPage';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 
 export const App = () => {
+  const basename =
+    process.env.NODE_ENV === 'production' ? '/wildberries-clone' : '/';
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="login" element={<LoginPage />} />
 
